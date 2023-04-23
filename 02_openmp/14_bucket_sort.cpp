@@ -13,15 +13,12 @@ int main() {
   printf("\n");
 
   std::vector<int> bucket(range,0); 
+#pragma omp parallel for
   for (int i=0; i<n; i++)
+#pragma omp atomic update
     bucket[key[i]]++;
   std::vector<int> offset(range,0);
   std::vector<int> offset_copy(range,0);
-
-// initialize offset with values from bucket
-#pragma omp parallel for
-  for (int i=1; i<range; i++)
-    offset[i] = bucket[i-1];
 
 // calculate offset by prefix sum
 #pragma omp parallel
@@ -30,8 +27,8 @@ int main() {
     for (int i=0; i<range; i++)
       offset_copy[i] = offset[i];
 #pragma omp for
-    for (int i=k; i<range-1; i++)
-      offset[i+1] += offset_copy[i+1-k];
+    for (int i=k; i<range; i++)
+      offset[i] += offset_copy[i-k] + bucket[i-k];
   }
 
 // update sorted values based on values from bucket and offset
