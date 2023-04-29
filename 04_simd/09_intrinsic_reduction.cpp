@@ -5,7 +5,7 @@ int main() {
   const int N = 8;
   float a[N];
   for (int i=0; i<N; i++)
-    a[i] = 1;
+    a[i] = i;
   __m256 avec = _mm256_load_ps(a);
   __m256 bvec = _mm256_permute2f128_ps(avec,avec,1);
   bvec = _mm256_add_ps(bvec,avec);

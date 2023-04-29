@@ -5,6 +5,7 @@ int main() {
   float a[N], b = 0;
   for(int i=0; i<N; i++)
     a[i] = 1;
+#pragma omp simd reduction(+:b)
   for(int i=0; i<N; i++)
     b += a[i];
   printf("%g\n",b);
