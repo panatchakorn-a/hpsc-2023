@@ -46,9 +46,9 @@ int main() {
             }
         }
         
-	auto toc = chrono::steady_clock::now();
-        double time = chrono::duration<double>(toc - tic).count();
-        printf("step=%d: %lf s\n",n,time);
+	//auto toc = chrono::steady_clock::now();
+        //double time = chrono::duration<double>(toc - tic).count();
+        //printf("step=%d: %lf s\n",n,time);
 
         // Poisson
         for (int it=0; it<nit; it++) {
@@ -57,7 +57,7 @@ int main() {
                     pn[j][i] = p[j][i];
                 }
             }
-
+#pragma omp parallel for
             // pressure p values update
   	    for (int j=1; j<ny-1; j++) {
                 for (int i=1; i<nx-1; i++) {
@@ -78,9 +78,9 @@ int main() {
             }
         }
 
-        tic = chrono::steady_clock::now();
-        time = chrono::duration<double>(tic - toc).count();
-        printf("step=%d: %lf s\n",n,time);
+        //tic = chrono::steady_clock::now();
+        //time = chrono::duration<double>(tic - toc).count();
+        //printf("step=%d: %lf s\n",n,time);
 
         // un, vn as copies of u, v
         for (int j=0; j<ny; j++) {
@@ -119,10 +119,10 @@ int main() {
             v[ny-1][i] = 0;
         }
 
-        //auto toc = chrono::steady_clock::now();
-        //double time = chrono::duration<double>(toc - tic).count();
-	toc = chrono::steady_clock::now();
-	time = chrono::duration<double>(toc - tic).count();
+        auto toc = chrono::steady_clock::now();
+        double time = chrono::duration<double>(toc - tic).count();
+	//toc = chrono::steady_clock::now();
+	//time = chrono::duration<double>(toc - tic).count();
         printf("step=%d: %lf s (%lf GFlops)\n",n,time,2.*n*n*n/time/1e9);
     }
 }

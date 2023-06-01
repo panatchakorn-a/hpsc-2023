@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <vector>
 #include <chrono>
-//#include <iostream>
+#include <openacc.h>
 using namespace std;
 typedef vector<vector<float>> matrix;
 
@@ -58,9 +58,12 @@ int main() {
                 }
             }
 
+#pragma acc kernels
+#pragma acc loop independent
             // pressure p values update
   	    for (int j=1; j<ny-1; j++) {
-                for (int i=1; i<nx-1; i++) {
+#pragma acc loop independent            
+		for (int i=1; i<nx-1; i++) {
                     p[j][i] = (dy*dy * (pn[j][i+1] + pn[j][i-1]) +
                               dx*dx * (pn[j+1][i] + pn[j-1][i]) -
                               b[j][i] * dx*dx * dy*dy)/(2 * (dx*dx + dy*dy));
