@@ -16,7 +16,7 @@ b = np.zeros((ny, nx))
 b[int(ny / 4), int(nx / 4)] = -1000
 
 fig = plt.figure(figsize=(11, 7), dpi=100)
-ax = fig.gca(projection='3d')
+ax = fig.add_subplot(projection='3d')
 X, Y = np.meshgrid(x, y)
 
 for n in range(nt):
@@ -36,4 +36,4 @@ for n in range(nt):
     ax.view_init(30, 225)
     plt.pause(.01)
     ax.cla()
-plt.show()
+plt.savefig('figure.jpg')
