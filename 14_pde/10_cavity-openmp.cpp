@@ -46,9 +46,9 @@ int main() {
             }
         }
         
-	//auto toc = chrono::steady_clock::now();
-        //double time = chrono::duration<double>(toc - tic).count();
-        //printf("step=%d: %lf s\n",n,time);
+	    auto toc = chrono::steady_clock::now();
+        double time = chrono::duration<double>(toc - tic).count();
+        printf("step=%d: %lf s\n",n,time);
 
         // Poisson
         for (int it=0; it<nit; it++) {
@@ -78,9 +78,9 @@ int main() {
             }
         }
 
-        //tic = chrono::steady_clock::now();
-        //time = chrono::duration<double>(tic - toc).count();
-        //printf("step=%d: %lf s\n",n,time);
+        tic = chrono::steady_clock::now();
+        time = chrono::duration<double>(tic - toc).count();
+        printf("step=%d: %lf s\n",n,time);
 
         // un, vn as copies of u, v
         for (int j=0; j<ny; j++) {
@@ -119,10 +119,42 @@ int main() {
             v[ny-1][i] = 0;
         }
 
-        auto toc = chrono::steady_clock::now();
-        double time = chrono::duration<double>(toc - tic).count();
-	//toc = chrono::steady_clock::now();
-	//time = chrono::duration<double>(toc - tic).count();
+        // auto toc = chrono::steady_clock::now();
+        // double time = chrono::duration<double>(toc - tic).count();
+        toc = chrono::steady_clock::now();
+        time = chrono::duration<double>(toc - tic).count();
         printf("step=%d: %lf s (%lf GFlops)\n",n,time,2.*n*n*n/time/1e9);
     }
+
+    /* check results */
+    printf("\n*** Check results ***");
+    printf("\nb[:-3][:-3]=\n");
+    for (int i=nx-3; i<nx; i++) {
+        for (int j=ny-3; j<ny; j++) {
+            printf("%f ", b[j][i]);
+        }
+        printf("\n");
+    }
+    printf("\np[:-3][:-3]=\n");
+    for (int i=nx-3; i<nx; i++) {
+        for (int j=ny-3; j<ny; j++) {
+            printf("%f ", p[j][i]);
+        }
+        printf("\n");
+    }
+    printf("\nu[:-3][:-3]=\n");
+    for (int i=nx-3; i<nx; i++) {
+        for (int j=ny-3; j<ny; j++) {
+            printf("%f ", u[j][i]);
+        }
+        printf("\n");
+    }
+    printf("\nv[:-3][:-3]=\n");
+    for (int i=nx-3; i<nx; i++) {
+        for (int j=ny-3; j<ny; j++) {
+            printf("%f ", v[j][i]);
+        }
+        printf("\n");
+    }
+    
 }
