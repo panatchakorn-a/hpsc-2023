@@ -101,7 +101,7 @@ __global__ void update_uv(float *u, float *un, float *v, float *vn, float *p, fl
 }
 
 
-long time_diff_sec(struct timeval st, struct timeval et)
+long time_diff_us(struct timeval st, struct timeval et)
 {
     return (et.tv_sec-st.tv_sec)*1000000 + (et.tv_usec-st.tv_usec);
 }
@@ -154,12 +154,12 @@ int main() {
         gettimeofday(&et3, NULL);
 
         /* show runtime */
-        t1 = time_diff_sec(st1, et1);
-        t2 = time_diff_sec(st2, et2);
-        t3 = time_diff_sec(st3, et3);
+        t1 = time_diff_us(st1, et1);
+        t2 = time_diff_us(st2, et2);
+        t3 = time_diff_us(st3, et3);
         printf("step=%d: %lf us\n",n,t1);
         printf("step=%d: %lf us\n",n,t2);
-        printf("step=%d: %lf us (%lf GFlops)\n",n,t3,2.*n*n*n/(t3/1e6)/1e9);
+        printf("step=%d: %lf us (%lf GFlops)\n",n,t3,2.*n*n*n/t3/1e3);
     }
 
     /* check results */
